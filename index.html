@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>RoboCop — Animationse</title>
+  </head>
+  <body>
+    <main class="stage">
+      <div class="demos">
+        <section class="demo" aria-labelledby="title">
+          <p class="eyebrow">ARCADE SPRITE STUDY · 1988</p>
+          <h1 id="title">On patrol.</h1>
+          <p class="intro">The first eight frames, brought to life.</p>
+
+          <div class="screen" aria-label="RoboCop walking animation">
+            <div class="scanlines" aria-hidden="true"></div>
+            <canvas
+              class="sprite-animation"
+              width="40"
+              height="72"
+              data-src="images/robocop-sprites.png"
+              data-frame-width="40"
+              data-frame-height="72"
+              data-frame-count="8"
+              data-start-x="0"
+              data-start-y="0"
+              data-loop="true"
+              role="img"
+              aria-label="RoboCop walking"
+            ></canvas>
+            <span class="screen-caption">SECTOR 01 <span>·</span> DETROIT</span>
+          </div>
+
+          <div class="controls">
+            <button class="toggle" type="button" aria-pressed="true">
+              <span class="button-icon" aria-hidden="true">Ⅱ</span>
+              <span class="button-label">Pause</span>
+            </button>
+            <label for="walk-speed">Pace</label>
+            <input
+              id="walk-speed"
+              class="speed"
+              type="range"
+              min="70"
+              max="220"
+              value="120"
+              aria-label="Walk animation speed"
+            />
+            <span class="speed-value">120 ms</span>
+          </div>
+          <p class="credit">8 frames <span>／</span> looping walk cycle</p>
+        </section>
+
+        <section class="demo action-demo" aria-labelledby="draw-title">
+          <p class="eyebrow">ACTION SEQUENCE · 01</p>
+          <h2 id="draw-title">Draw weapon.</h2>
+          <p class="intro">Draw, then holster. You choose the action.</p>
+
+          <div class="screen" aria-label="RoboCop drawing his weapon animation">
+            <div class="scanlines" aria-hidden="true"></div>
+            <canvas
+              class="sprite-animation"
+              width="52"
+              height="72"
+              data-src="images/robocop-sprites.png"
+              data-frame-width="40"
+              data-frame-height="72"
+              data-padding-x="4"
+              data-frame-count="17"
+              data-start-x="0"
+              data-start-y="800"
+              data-extend-frame-index="6"
+              data-extend-frame-by="4"
+              data-controls="actions"
+              data-draw-end="6"
+              data-holster-start="7"
+              data-return-frame="0"
+              data-draw-offset-x="-5"
+              data-holster-offset-x="3"
+              data-return-offset-x="-5"
+              data-offset-start-frame="7"
+              data-frame-x-offset="16"
+              data-loop="false"
+              role="img"
+              aria-label="RoboCop drawing his weapon"
+            ></canvas>
+            <span class="screen-caption">ACTION 01 <span>·</span> DRAW</span>
+          </div>
+
+          <div class="controls action-controls">
+            <button
+              class="action-button draw-button"
+              type="button"
+              data-action="draw"
+            >
+              Draw weapon
+            </button>
+            <button class="action-button" type="button" data-action="holster">
+              Put away
+            </button>
+            <label for="draw-speed">Pace</label>
+            <input
+              id="draw-speed"
+              class="speed"
+              type="range"
+              min="70"
+              max="220"
+              value="140"
+              aria-label="Weapon draw animation speed"
+            />
+            <span class="speed-value">140 ms</span>
+          </div>
+          <p class="action-status" aria-live="polite">Weapon holstered</p>
+          <p class="credit">17 frames <span>／</span> 7 draw · 10 holster</p>
+        </section>
+      </div>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
