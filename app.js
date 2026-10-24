@@ -24,6 +24,14 @@ function setupAnimation(canvas) {
   const frameCount = Number(canvas.dataset.frameCount);
   const startX = Number(canvas.dataset.startX);
   const startY = Number(canvas.dataset.startY);
+  const tripStartY = Number(canvas.dataset.tripStartY);
+  const tripFrameCount = Number(canvas.dataset.tripFrameCount || 0);
+  const tripFrameHeight = Number(
+    canvas.dataset.tripFrameHeight || frameHeight,
+  );
+  const tripFrameXOffsets = canvas.dataset.tripFrameXOffsets
+    ?.split(",")
+    .map(Number);
   const framePositions = canvas.dataset.framePositions
     ?.split(",")
     .map(Number);
@@ -44,11 +52,19 @@ function setupAnimation(canvas) {
   const loops = canvas.dataset.loop === "true";
   const speed = demo.querySelector(".speed");
   const speedValue = demo.querySelector(".speed-value");
-  const actionButtons = demo.querySelectorAll("[data-action]");
+  const tripButton = demo.querySelector('[data-action="trip"]');
+  const screenCaption = demo.querySelector(".screen-caption");
+  const actionButtons = demo.querySelectorAll(
+    '[data-action="draw"], [data-action="holster"]',
+  );
   const actionStatus = demo.querySelector(".action-status");
   const isActionAnimation = actionButtons.length > 0;
 
   let frame = 0;
+  let activeStartY = startY;
+  let activeFrameHeight = frameHeight;
+  let activeFrameXOffsets = null;
+  let activeLoops = loops;
   let playing = !isActionAnimation;
   let showingReturnPose = isActionAnimation && hasReturnFrame;
   let sequenceEnd = frameCount - 1;
@@ -75,16 +91,17 @@ function setupAnimation(canvas) {
     context.drawImage(
       sheet,
       sourceX,
-      startY,
+      activeStartY,
       sourceWidth,
-      frameHeight,
+      activeFrameHeight,
       paddingX +
         extendFrameBy / 2 +
         sequenceOffsetX +
+        (activeFrameXOffsets?.[frame] ?? 0) +
         (frameWidths ? (canvas.width - sourceWidth) / 2 : 0),
-      0,
+      (canvas.height - activeFrameHeight) / 2,
       sourceWidth,
-      canvas.height,
+      activeFrameHeight,
     );
 
     if (pulseColor !== null) {
@@ -171,6 +188,38 @@ function setupAnimation(canvas) {
       if (playing) lastFrameAt = 0;
       updateToggle(toggle, playing);
     });
+
+    if (tripButton) {
+      tripButton.addEventListener("click", () => {
+        frame = 0;
+        activeStartY = tripStartY;
+        activeFrameHeight = tripFrameHeight;
+        activeFrameXOffsets = tripFrameXOffsets;
+        activeLoops = false;
+        sequenceEnd = tripFrameCount - 1;
+        playing = true;
+        lastFrameAt = 0;
+        updateToggle(toggle, true);
+        actionStatus.textContent = "Tripping!";
+        screenCaption.textContent = "TRIP · GROUND";
+        onSequenceEnd = () => {
+          frame = 0;
+          activeStartY = startY;
+          activeFrameHeight = frameHeight;
+          activeFrameXOffsets = null;
+          activeLoops = loops;
+          sequenceEnd = frameCount - 1;
+          playing = true;
+          lastFrameAt = 0;
+          canvas.setAttribute("aria-label", "Space Harrier running");
+          actionStatus.textContent = "Running";
+          screenCaption.textContent = "RUN CYCLE · GROUND";
+          drawFrame();
+        };
+        canvas.setAttribute("aria-label", "Space Harrier tripping");
+        drawFrame();
+      });
+    }
   }
 
   speed.addEventListener("input", () => {
@@ -189,7 +238,7 @@ function setupAnimation(canvas) {
       if (frame < sequenceEnd) {
         frame += 1;
         frameChanged = true;
-      } else if (loops) {
+      } else if (activeLoops) {
         frame = 0;
         frameChanged = true;
       } else {

@@ -215,6 +215,10 @@
                   data-frame-count="4"
                   data-start-x="0"
                   data-start-y="32"
+                  data-trip-start-y="146"
+                  data-trip-frame-count="10"
+                  data-trip-frame-height="64"
+                  data-trip-frame-x-offsets="0,0,2,3,-2,5,5,14,21,25"
                   data-pulse-color="41e54b"
                   data-loop="true"
                   role="img"
@@ -226,6 +230,9 @@
               </div>
 
               <div class="controls">
+                <button class="trip-button" type="button" data-action="trip">
+                  Trip!
+                </button>
                 <button class="toggle" type="button" aria-pressed="true">
                   <span class="button-icon" aria-hidden="true">Ⅱ</span>
                   <span class="button-label">Pause</span>
@@ -242,6 +249,7 @@
                 />
                 <span class="speed-value">120 ms</span>
               </div>
+              <p class="action-status" aria-live="polite">Running</p>
               <p class="credit">4 frames <span>／</span> looping run</p>
             </section>
           </div>
