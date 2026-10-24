@@ -136,6 +136,11 @@ canvas {
   transform: translateY(-25px);
 }
 
+.ed209-demo canvas {
+  width: 222px;
+  height: 288px;
+}
+
 .scanlines {
   position: absolute;
   z-index: 2;

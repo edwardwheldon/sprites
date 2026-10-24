@@ -18,6 +18,10 @@ function setupAnimation(canvas) {
   const frameCount = Number(canvas.dataset.frameCount);
   const startX = Number(canvas.dataset.startX);
   const startY = Number(canvas.dataset.startY);
+  const framePositions = canvas.dataset.framePositions
+    ?.split(",")
+    .map(Number);
+  const frameWidths = canvas.dataset.frameWidths?.split(",").map(Number);
   const paddingX = Number(canvas.dataset.paddingX || 0);
   const extendFrameIndex = Number(canvas.dataset.extendFrameIndex ?? -1);
   const extendFrameBy = Number(canvas.dataset.extendFrameBy || 0);
@@ -50,7 +54,13 @@ function setupAnimation(canvas) {
   function drawFrame() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     const sourceWidth =
-      frame === extendFrameIndex ? frameWidth + extendFrameBy : frameWidth;
+      frameWidths?.[frame] ??
+      (frame === extendFrameIndex ? frameWidth + extendFrameBy : frameWidth);
+    const sourceX =
+      framePositions?.[frame] ??
+      startX +
+        frame * frameWidth +
+        (frame >= offsetStartFrame ? frameXOffset : 0);
     const sequenceOffsetX = showingReturnPose
       ? returnOffsetX
       : frame >= holsterStartFrame
@@ -58,13 +68,14 @@ function setupAnimation(canvas) {
         : drawOffsetX;
     context.drawImage(
       sheet,
-      startX +
-        frame * frameWidth +
-        (frame >= offsetStartFrame ? frameXOffset : 0),
+      sourceX,
       startY,
       sourceWidth,
       frameHeight,
-      paddingX + extendFrameBy / 2 + sequenceOffsetX,
+      paddingX +
+        extendFrameBy / 2 +
+        sequenceOffsetX +
+        (frameWidths ? (canvas.width - sourceWidth) / 2 : 0),
       0,
       sourceWidth,
       canvas.height,
