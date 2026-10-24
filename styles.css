@@ -25,8 +25,7 @@ body {
 
 .stage {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
+  display: flow-root;
   padding: 48px 24px;
   background: radial-gradient(
     ellipse at 50% 40%,
@@ -36,11 +35,93 @@ body {
   );
 }
 
+.stage[data-game="space-harrier"] {
+  --acid: #79e7ff;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    #202b43 0,
+    #171c2b 38%,
+    #101314 76%
+  );
+}
+
+.site-header {
+  width: min(100%, 920px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 auto 48px;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.wordmark-mark {
+  color: var(--acid);
+  font-size: 13px;
+}
+
+.wordmark-muted {
+  color: var(--muted);
+}
+
+.game-menu {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid #ffffff12;
+  border-radius: 7px;
+  background: #0003;
+}
+
+.game-link {
+  padding: 9px 13px;
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.game-link:hover,
+.game-link:focus-visible {
+  color: var(--ink);
+}
+
+.game-link:focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 2px;
+}
+
+.game-link[aria-current="page"] {
+  color: var(--acid);
+  background: #ffffff0c;
+}
+
+.game-pages {
+  width: 100%;
+}
+
 .demos {
   width: min(100%, 560px);
   display: grid;
   gap: 76px;
   padding-block: 28px;
+  margin-inline: auto;
 }
 
 .demo {
@@ -113,6 +194,31 @@ h2 {
   box-shadow:
     0 0 0 28px #c4f36b0a,
     0 0 0 58px #c4f36b08;
+}
+
+.space-harrier-page {
+  --acid: #79e7ff;
+}
+
+.space-harrier-page canvas {
+  width: 160px;
+  height: 180px;
+  transform: translate(-26px, -3px);
+}
+
+.space-harrier-page .screen {
+  border-color: #3d526b;
+  background-color: #202b43;
+  background-image:
+    linear-gradient(#ffffff08 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+}
+
+.space-harrier-page .screen::before {
+  border-color: #79e7ff24;
+  box-shadow:
+    0 0 0 28px #79e7ff0c,
+    0 0 0 58px #79e7ff08;
 }
 
 canvas {
@@ -269,6 +375,22 @@ input[type="range"] {
 }
 
 @media (max-width: 390px) {
+  .stage {
+    padding-inline: 18px;
+  }
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 36px;
+  }
+  .game-menu {
+    width: 100%;
+  }
+  .game-link {
+    flex: 1;
+    text-align: center;
+  }
   .controls {
     gap: 9px;
   }

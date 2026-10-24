@@ -7,164 +7,245 @@
     <title>RoboCop — Animations</title>
   </head>
   <body>
-    <main class="stage">
-      <div class="demos">
-        <section class="demo" aria-labelledby="title">
-          <p class="eyebrow">ARCADE SPRITE STUDY · 1988</p>
-          <h1 id="title">On patrol.</h1>
-          <p class="intro">The first eight frames, brought to life.</p>
+    <main class="stage" data-game="robocop">
+      <header class="site-header">
+        <a class="wordmark" href="#robocop" aria-label="Arcade archive home">
+          <span class="wordmark-mark" aria-hidden="true">▶</span>
+          <span>ARCADE <span class="wordmark-muted">ARCHIVE</span></span>
+        </a>
+        <nav class="game-menu" aria-label="Choose a game">
+          <a class="game-link" href="#robocop" aria-current="page">RoboCop</a>
+          <a class="game-link" href="#space-harrier">Space Harrier</a>
+        </nav>
+      </header>
 
-          <div class="screen" aria-label="RoboCop walking animation">
-            <div class="scanlines" aria-hidden="true"></div>
-            <canvas
-              class="sprite-animation"
-              width="40"
-              height="72"
-              data-src="images/robocop-sprites.png"
-              data-frame-width="40"
-              data-frame-height="72"
-              data-frame-count="8"
-              data-start-x="0"
-              data-start-y="0"
-              data-loop="true"
-              role="img"
-              aria-label="RoboCop walking"
-            ></canvas>
-            <span class="screen-caption">SECTOR 01 <span>·</span> DETROIT</span>
+      <div class="game-pages">
+        <div class="game-page" id="robocop">
+          <div class="demos">
+            <section class="demo" aria-labelledby="title">
+              <p class="eyebrow">ARCADE SPRITE STUDY · 1988</p>
+              <h1 id="title">On patrol.</h1>
+              <p class="intro">The first eight frames, brought to life.</p>
+
+              <div class="screen" aria-label="RoboCop walking animation">
+                <div class="scanlines" aria-hidden="true"></div>
+                <canvas
+                  class="sprite-animation"
+                  width="40"
+                  height="72"
+                  data-src="images/robocop-sprites.png"
+                  data-frame-width="40"
+                  data-frame-height="72"
+                  data-frame-count="8"
+                  data-start-x="0"
+                  data-start-y="0"
+                  data-loop="true"
+                  role="img"
+                  aria-label="RoboCop walking"
+                ></canvas>
+                <span class="screen-caption"
+                  >SECTOR 01 <span>·</span> DETROIT</span
+                >
+              </div>
+
+              <div class="controls">
+                <button class="toggle" type="button" aria-pressed="true">
+                  <span class="button-icon" aria-hidden="true">Ⅱ</span>
+                  <span class="button-label">Pause</span>
+                </button>
+                <label for="walk-speed">Pace</label>
+                <input
+                  id="walk-speed"
+                  class="speed"
+                  type="range"
+                  min="70"
+                  max="220"
+                  value="120"
+                  aria-label="Walk animation speed"
+                />
+                <span class="speed-value">120 ms</span>
+              </div>
+              <p class="credit">8 frames <span>／</span> looping walk cycle</p>
+            </section>
+
+            <section class="demo action-demo" aria-labelledby="draw-title">
+              <p class="eyebrow">ACTION SEQUENCE · 01</p>
+              <h2 id="draw-title">Draw weapon.</h2>
+              <p class="intro">Draw, then holster. You choose the action.</p>
+
+              <div
+                class="screen"
+                aria-label="RoboCop drawing his weapon animation"
+              >
+                <div class="scanlines" aria-hidden="true"></div>
+                <canvas
+                  class="sprite-animation"
+                  width="50"
+                  height="68"
+                  data-src="images/robocop-sprites.png"
+                  data-frame-width="40"
+                  data-frame-height="72"
+                  data-padding-x="4"
+                  data-frame-count="17"
+                  data-start-x="0"
+                  data-start-y="800"
+                  data-extend-frame-index="6"
+                  data-extend-frame-by="4"
+                  data-controls="actions"
+                  data-draw-end="6"
+                  data-holster-start="7"
+                  data-return-frame="0"
+                  data-draw-offset-x="-5"
+                  data-holster-offset-x="3"
+                  data-return-offset-x="-5"
+                  data-offset-start-frame="7"
+                  data-frame-x-offset="16"
+                  data-loop="false"
+                  role="img"
+                  aria-label="RoboCop drawing his weapon"
+                ></canvas>
+                <span class="screen-caption"
+                  >ACTION 01 <span>·</span> DRAW</span
+                >
+              </div>
+
+              <div class="controls action-controls">
+                <button
+                  class="action-button draw-button"
+                  type="button"
+                  data-action="draw"
+                >
+                  Draw weapon
+                </button>
+                <button
+                  class="action-button"
+                  type="button"
+                  data-action="holster"
+                >
+                  Put away
+                </button>
+                <label for="draw-speed">Pace</label>
+                <input
+                  id="draw-speed"
+                  class="speed"
+                  type="range"
+                  min="70"
+                  max="220"
+                  value="140"
+                  aria-label="Weapon draw animation speed"
+                />
+                <span class="speed-value">140 ms</span>
+              </div>
+              <p class="action-status" aria-live="polite">Weapon holstered</p>
+              <p class="credit">
+                17 frames <span>／</span> 7 draw · 10 holster
+              </p>
+            </section>
+
+            <section class="demo ed209-demo" aria-labelledby="ed209-title">
+              <p class="eyebrow">
+                THE HOT MILITARY PRODUCT FOR THE NEXT DECADE · 1987
+              </p>
+              <h2 id="ed209-title">Heavy steps.</h2>
+              <p class="intro">
+                ED-209 on patrol. Eight frames, endlessly looping.
+              </p>
+
+              <div class="screen" aria-label="ED-209 walking animation">
+                <div class="scanlines" aria-hidden="true"></div>
+                <canvas
+                  class="sprite-animation"
+                  width="111"
+                  height="144"
+                  data-src="images/sprites-ed209.png"
+                  data-frame-width="111"
+                  data-frame-height="144"
+                  data-frame-positions="16,128,235,346,449,561,668,779"
+                  data-frame-widths="104,99,103,95,104,99,103,95"
+                  data-frame-count="8"
+                  data-start-x="0"
+                  data-start-y="0"
+                  data-loop="true"
+                  role="img"
+                  aria-label="ED-209 walking"
+                ></canvas>
+                <span class="screen-caption"
+                  >SECTOR 02 <span>·</span> DETROIT</span
+                >
+              </div>
+
+              <div class="controls">
+                <button class="toggle" type="button" aria-pressed="true">
+                  <span class="button-icon" aria-hidden="true">Ⅱ</span>
+                  <span class="button-label">Pause</span>
+                </button>
+                <label for="ed209-walk-speed">Pace</label>
+                <input
+                  id="ed209-walk-speed"
+                  class="speed"
+                  type="range"
+                  min="70"
+                  max="220"
+                  value="150"
+                  aria-label="ED-209 walk animation speed"
+                />
+                <span class="speed-value">150 ms</span>
+              </div>
+              <p class="credit">8 frames <span>／</span> looping walk cycle</p>
+            </section>
           </div>
+        </div>
 
-          <div class="controls">
-            <button class="toggle" type="button" aria-pressed="true">
-              <span class="button-icon" aria-hidden="true">Ⅱ</span>
-              <span class="button-label">Pause</span>
-            </button>
-            <label for="walk-speed">Pace</label>
-            <input
-              id="walk-speed"
-              class="speed"
-              type="range"
-              min="70"
-              max="220"
-              value="120"
-              aria-label="Walk animation speed"
-            />
-            <span class="speed-value">120 ms</span>
+        <div class="game-page space-harrier-page" id="space-harrier" hidden>
+          <div class="demos">
+            <section class="demo" aria-labelledby="space-harrier-title">
+              <p class="eyebrow">ARCADE SPRITE STUDY · 1985</p>
+              <h1 id="space-harrier-title">Get ready.</h1>
+              <p class="intro">Four frames of Space Harrier on the run.</p>
+
+              <div class="screen" aria-label="Space Harrier running animation">
+                <div class="scanlines" aria-hidden="true"></div>
+                <canvas
+                  class="sprite-animation"
+                  width="64"
+                  height="72"
+                  data-src="images/sprites-space-harrier.png"
+                  data-frame-width="64"
+                  data-frame-height="72"
+                  data-frame-count="4"
+                  data-start-x="0"
+                  data-start-y="32"
+                  data-pulse-color="41e54b"
+                  data-loop="true"
+                  role="img"
+                  aria-label="Space Harrier running"
+                ></canvas>
+                <span class="screen-caption"
+                  >RUN CYCLE <span>·</span> GROUND</span
+                >
+              </div>
+
+              <div class="controls">
+                <button class="toggle" type="button" aria-pressed="true">
+                  <span class="button-icon" aria-hidden="true">Ⅱ</span>
+                  <span class="button-label">Pause</span>
+                </button>
+                <label for="run-speed">Pace</label>
+                <input
+                  id="run-speed"
+                  class="speed"
+                  type="range"
+                  min="70"
+                  max="220"
+                  value="120"
+                  aria-label="Running animation speed"
+                />
+                <span class="speed-value">120 ms</span>
+              </div>
+              <p class="credit">4 frames <span>／</span> looping run</p>
+            </section>
           </div>
-          <p class="credit">8 frames <span>／</span> looping walk cycle</p>
-        </section>
-
-        <section class="demo action-demo" aria-labelledby="draw-title">
-          <p class="eyebrow">ACTION SEQUENCE · 01</p>
-          <h2 id="draw-title">Draw weapon.</h2>
-          <p class="intro">Draw, then holster. You choose the action.</p>
-
-          <div class="screen" aria-label="RoboCop drawing his weapon animation">
-            <div class="scanlines" aria-hidden="true"></div>
-            <canvas
-              class="sprite-animation"
-              width="50"
-              height="68"
-              data-src="images/robocop-sprites.png"
-              data-frame-width="40"
-              data-frame-height="72"
-              data-padding-x="4"
-              data-frame-count="17"
-              data-start-x="0"
-              data-start-y="800"
-              data-extend-frame-index="6"
-              data-extend-frame-by="4"
-              data-controls="actions"
-              data-draw-end="6"
-              data-holster-start="7"
-              data-return-frame="0"
-              data-draw-offset-x="-5"
-              data-holster-offset-x="3"
-              data-return-offset-x="-5"
-              data-offset-start-frame="7"
-              data-frame-x-offset="16"
-              data-loop="false"
-              role="img"
-              aria-label="RoboCop drawing his weapon"
-            ></canvas>
-            <span class="screen-caption">ACTION 01 <span>·</span> DRAW</span>
-          </div>
-
-          <div class="controls action-controls">
-            <button
-              class="action-button draw-button"
-              type="button"
-              data-action="draw"
-            >
-              Draw weapon
-            </button>
-            <button class="action-button" type="button" data-action="holster">
-              Put away
-            </button>
-            <label for="draw-speed">Pace</label>
-            <input
-              id="draw-speed"
-              class="speed"
-              type="range"
-              min="70"
-              max="220"
-              value="140"
-              aria-label="Weapon draw animation speed"
-            />
-            <span class="speed-value">140 ms</span>
-          </div>
-          <p class="action-status" aria-live="polite">Weapon holstered</p>
-          <p class="credit">17 frames <span>／</span> 7 draw · 10 holster</p>
-        </section>
-
-        <section class="demo ed209-demo" aria-labelledby="ed209-title">
-          <p class="eyebrow">
-            THE HOT MILITARY PRODUCT FOR THE NEXT DECADE · 1987
-          </p>
-          <h2 id="ed209-title">Heavy steps.</h2>
-          <p class="intro">
-            ED-209 on patrol. Eight frames, endlessly looping.
-          </p>
-
-          <div class="screen" aria-label="ED-209 walking animation">
-            <div class="scanlines" aria-hidden="true"></div>
-            <canvas
-              class="sprite-animation"
-              width="111"
-              height="144"
-              data-src="images/sprites-ed209.png"
-              data-frame-width="111"
-              data-frame-height="144"
-              data-frame-positions="16,128,235,346,449,561,668,779"
-              data-frame-widths="104,99,103,95,104,99,103,95"
-              data-frame-count="8"
-              data-start-x="0"
-              data-start-y="0"
-              data-loop="true"
-              role="img"
-              aria-label="ED-209 walking"
-            ></canvas>
-            <span class="screen-caption">SECTOR 02 <span>·</span> DETROIT</span>
-          </div>
-
-          <div class="controls">
-            <button class="toggle" type="button" aria-pressed="true">
-              <span class="button-icon" aria-hidden="true">Ⅱ</span>
-              <span class="button-label">Pause</span>
-            </button>
-            <label for="ed209-walk-speed">Pace</label>
-            <input
-              id="ed209-walk-speed"
-              class="speed"
-              type="range"
-              min="70"
-              max="220"
-              value="150"
-              aria-label="ED-209 walk animation speed"
-            />
-            <span class="speed-value">150 ms</span>
-          </div>
-          <p class="credit">8 frames <span>／</span> looping walk cycle</p>
-        </section>
+        </div>
       </div>
     </main>
 

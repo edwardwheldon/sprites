@@ -11,7 +11,13 @@ function loadSpriteSheet(src) {
 
 function setupAnimation(canvas) {
   const demo = canvas.closest(".demo");
-  const context = canvas.getContext("2d");
+  const pulseColor =
+    canvas.dataset.pulseColor === undefined
+      ? null
+      : Number.parseInt(canvas.dataset.pulseColor, 16);
+  const context = canvas.getContext("2d", {
+    willReadFrequently: pulseColor !== null,
+  });
   const sheet = loadSpriteSheet(canvas.dataset.src);
   const frameWidth = Number(canvas.dataset.frameWidth);
   const frameHeight = Number(canvas.dataset.frameHeight);
@@ -51,7 +57,7 @@ function setupAnimation(canvas) {
 
   context.imageSmoothingEnabled = false;
 
-  function drawFrame() {
+  function drawFrame(timestamp = 0) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     const sourceWidth =
       frameWidths?.[frame] ??
@@ -80,6 +86,31 @@ function setupAnimation(canvas) {
       sourceWidth,
       canvas.height,
     );
+
+    if (pulseColor !== null) {
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+      const sourceRed = (pulseColor >> 16) & 255;
+      const sourceGreen = (pulseColor >> 8) & 255;
+      const sourceBlue = pulseColor & 255;
+      const pulse = (Math.sin((timestamp / 1400) * Math.PI * 2) + 1) / 2;
+      const red = Math.round(75 + pulse * 180);
+      const green = Math.round(12 + pulse * 34);
+      const blue = Math.round(20 + pulse * 25);
+
+      for (let index = 0; index < pixels.data.length; index += 4) {
+        if (
+          pixels.data[index] === sourceRed &&
+          pixels.data[index + 1] === sourceGreen &&
+          pixels.data[index + 2] === sourceBlue
+        ) {
+          pixels.data[index] = red;
+          pixels.data[index + 1] = green;
+          pixels.data[index + 2] = blue;
+        }
+      }
+
+      context.putImageData(pixels, 0, 0);
+    }
   }
 
   function playSequence(
@@ -147,6 +178,8 @@ function setupAnimation(canvas) {
   });
 
   function animate(timestamp) {
+    let frameChanged = false;
+
     if (
       playing &&
       sheet.complete &&
@@ -155,10 +188,10 @@ function setupAnimation(canvas) {
     ) {
       if (frame < sequenceEnd) {
         frame += 1;
-        drawFrame();
+        frameChanged = true;
       } else if (loops) {
         frame = 0;
-        drawFrame();
+        frameChanged = true;
       } else {
         playing = false;
         if (onSequenceEnd) {
@@ -168,6 +201,17 @@ function setupAnimation(canvas) {
       }
       lastFrameAt = timestamp;
     }
+
+    if (
+      pulseColor !== null &&
+      sheet.complete &&
+      sheet.naturalWidth
+    ) {
+      drawFrame(timestamp);
+    } else if (frameChanged) {
+      drawFrame();
+    }
+
     requestAnimationFrame(animate);
   }
 
@@ -175,3 +219,32 @@ function setupAnimation(canvas) {
 }
 
 document.querySelectorAll(".sprite-animation").forEach(setupAnimation);
+
+const stage = document.querySelector(".stage");
+const gamePages = [...document.querySelectorAll(".game-page")];
+const gameLinks = [...document.querySelectorAll(".game-link")];
+
+function showGame(hash) {
+  const activePage =
+    gamePages.find((page) => `#${page.id}` === hash) ?? gamePages[0];
+
+  gamePages.forEach((page) => {
+    page.hidden = page !== activePage;
+  });
+  gameLinks.forEach((link) => {
+    if (link.hash === `#${activePage.id}`) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+
+  stage.dataset.game = activePage.id;
+  document.title =
+    activePage.id === "space-harrier"
+      ? "Space Harrier — Animations"
+      : "RoboCop — Animations";
+}
+
+window.addEventListener("hashchange", () => showGame(window.location.hash));
+showGame(window.location.hash);
