@@ -213,16 +213,11 @@ h2 {
 
 .space-harrier-page .screen {
   border-color: #3d526b;
+  background-color: #1b2639;
   background-image:
     linear-gradient(#ffffff08 1px, transparent 1px),
-    linear-gradient(90deg, #ffffff08 1px, transparent 1px),
-    linear-gradient(
-      180deg,
-      rgb(36, 86, 192) 0%,
-      rgba(87, 199, 133, 1) 60%,
-      rgb(15, 133, 74) 100%
-    );
-  background-size: 24px 24px, 24px 24px, 100% 100%;
+    linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .space-harrier-page .screen::before {
