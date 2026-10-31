@@ -254,25 +254,33 @@
               <p class="credit">4 frames <span>／</span> looping run</p>
             </section>
 
-            <section class="demo" aria-labelledby="space-harrier-flight-title">
+            <section
+              class="demo flight-demo"
+              aria-labelledby="space-harrier-flight-title"
+            >
               <p class="eyebrow">FLIGHT POSE · 1985</p>
               <h2 id="space-harrier-flight-title">Take flight.</h2>
-              <p class="intro">Space Harrier airborne.</p>
+              <p class="intro">Space Harrier takes to the skies.</p>
 
               <div class="screen" aria-label="Space Harrier flying pose">
                 <div class="scanlines" aria-hidden="true"></div>
                 <canvas
                   class="sprite-animation"
-                  width="64"
+                  width="112"
                   height="72"
                   data-src="images/space-harrier-sprites.png"
                   data-frame-width="64"
                   data-frame-height="72"
-                  data-frame-count="1"
+                  data-frame-count="4"
                   data-start-x="5"
+                  data-frame-positions="5,69,133,197"
+                  data-frame-centers="41.5,41.5,44.5,40.5"
                   data-start-y="252"
+                  data-center-sprite="true"
                   data-pulse-color="41e54b"
                   data-static="true"
+                  data-behavior="space-harrier-flight"
+                  data-phase-duration="5000"
                   role="img"
                   aria-label="Space Harrier flying"
                 ></canvas>

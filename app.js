@@ -40,6 +40,8 @@ function setupAnimation(canvas) {
     .map(Number);
   const framePositions = canvas.dataset.framePositions?.split(",").map(Number);
   const frameWidths = canvas.dataset.frameWidths?.split(",").map(Number);
+  const frameCenters = canvas.dataset.frameCenters?.split(",").map(Number);
+  const centerSprite = canvas.dataset.centerSprite === "true";
   const paddingX = Number(canvas.dataset.paddingX || 0);
   const extendFrameIndex = Number(canvas.dataset.extendFrameIndex ?? -1);
   const extendFrameBy = Number(canvas.dataset.extendFrameBy || 0);
@@ -58,6 +60,7 @@ function setupAnimation(canvas) {
   let activeFrameHeight = frameHeight;
   let activeFrameXOffsets = null;
   let activeOffsetX = 0;
+  let flipped = false;
   let activeLoops = loops;
   let playing = loops;
   let sequenceEnd = frameCount - 1;
@@ -77,21 +80,32 @@ function setupAnimation(canvas) {
       startX +
         frame * frameWidth +
         (frame >= offsetStartFrame ? frameXOffset : 0);
+    const destinationX =
+      paddingX +
+      extendFrameBy / 2 +
+      activeOffsetX +
+      (activeFrameXOffsets?.[frame] ?? 0) +
+      (frameWidths ? (canvas.width - sourceWidth) / 2 : 0) +
+      (centerSprite
+        ? canvas.width / 2 - (frameCenters?.[frame] ?? sourceWidth / 2)
+        : 0);
+    context.save();
+    if (flipped) {
+      context.translate(canvas.width, 0);
+      context.scale(-1, 1);
+    }
     context.drawImage(
       sheet,
       sourceX,
       activeStartY,
       sourceWidth,
       activeFrameHeight,
-      paddingX +
-        extendFrameBy / 2 +
-        activeOffsetX +
-        (activeFrameXOffsets?.[frame] ?? 0) +
-        (frameWidths ? (canvas.width - sourceWidth) / 2 : 0),
+      destinationX,
       (canvas.height - activeFrameHeight) / 2,
       sourceWidth,
       activeFrameHeight,
     );
+    context.restore();
 
     if (pulseColor !== null) {
       const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -172,6 +186,18 @@ function setupAnimation(canvas) {
     loops,
     playSequence,
     showFrame,
+    setPose(frameIndex, isFlipped = false) {
+      frame = frameIndex;
+      activeStartY = startY;
+      activeFrameHeight = frameHeight;
+      activeFrameXOffsets = null;
+      activeOffsetX = 0;
+      flipped = isFlipped;
+      activeLoops = false;
+      sequenceEnd = frameIndex;
+      playing = false;
+      onSequenceEnd = null;
+    },
     toggle() {
       playing = !playing;
       if (playing) lastFrameAt = 0;
@@ -189,18 +215,21 @@ function setupAnimation(canvas) {
   }
 
   const behaviorName = canvas.dataset.behavior;
+  let updateBehavior = null;
   if (behaviorName) {
     const setupBehavior = animationBehaviors[behaviorName];
     if (!setupBehavior) {
       throw new Error(`Unknown sprite behavior: ${behaviorName}`);
     }
-    setupBehavior({ canvas, demo, player, actionStatus });
+    updateBehavior = setupBehavior({ canvas, demo, player, actionStatus });
   }
 
   if (canvas.dataset.static === "true" && pulseColor === null) return;
 
   function animate(timestamp) {
     let frameChanged = false;
+
+    if (sheet.complete && sheet.naturalWidth) updateBehavior?.(timestamp);
 
     if (
       playing &&
@@ -302,9 +331,44 @@ function setupSpaceHarrierTrip({ canvas, demo, player, actionStatus }) {
   });
 }
 
+function setupSpaceHarrierFlight({ canvas, player }) {
+  const phaseDuration = Number(canvas.dataset.phaseDuration || 5000);
+  const cycleDuration = phaseDuration * 6;
+  const outboundFrames = [0, 1, 2, 3];
+  const returnFrames = [3, 2, 1, 0];
+  let startedAt = null;
+  let currentLabel = canvas.getAttribute("aria-label");
+
+  return (timestamp) => {
+    if (startedAt === null) startedAt = timestamp;
+
+    const elapsed = (timestamp - startedAt) % cycleDuration;
+    const phase = Math.floor(elapsed / phaseDuration);
+    const progress = (elapsed % phaseDuration) / phaseDuration;
+    const frameSequence =
+      phase === 1 || phase === 4 ? outboundFrames : returnFrames;
+    const activeFrame =
+      frameSequence[Math.min(
+        frameSequence.length - 1,
+        Math.floor(progress * frameSequence.length),
+      )];
+    const isMirrored = phase >= 4 && activeFrame !== 0;
+    const isCentered = phase === 0 || phase === 3;
+    player.setPose(isCentered ? 0 : activeFrame, isMirrored);
+    const label = isCentered
+      ? "Space Harrier flying"
+      : `Space Harrier turning ${isMirrored ? "the other way" : "left"}`;
+    if (label !== currentLabel) {
+      canvas.setAttribute("aria-label", label);
+      currentLabel = label;
+    }
+  };
+}
+
 const animationBehaviors = {
   "robocop-weapon": setupRobocopWeapon,
   "space-harrier-trip": setupSpaceHarrierTrip,
+  "space-harrier-flight": setupSpaceHarrierFlight,
 };
 
 document.querySelectorAll(".sprite-animation").forEach(setupAnimation);

@@ -206,6 +206,11 @@ h2 {
   transform: translate(-26px, -3px);
 }
 
+.space-harrier-page .flight-demo canvas {
+  width: 280px;
+  transform: translateY(-3px);
+}
+
 .space-harrier-page .controls {
   flex-wrap: wrap;
   row-gap: 12px;
