@@ -216,6 +216,17 @@ h2 {
   row-gap: 12px;
 }
 
+.run-controls .pace-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-left: auto;
+}
+
+.run-controls .pace-control label {
+  margin-left: 0;
+}
+
 .space-harrier-page .screen {
   border-color: #3d526b;
   background-color: #1b2639;
@@ -404,6 +415,10 @@ input[type="range"] {
   }
   .controls {
     gap: 9px;
+  }
+  .run-controls .pace-control {
+    flex-basis: 100%;
+    justify-content: flex-end;
   }
   button {
     min-width: 88px;
