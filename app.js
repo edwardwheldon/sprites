@@ -197,6 +197,8 @@ function setupAnimation(canvas) {
     setupBehavior({ canvas, demo, player, actionStatus });
   }
 
+  if (canvas.dataset.static === "true" && pulseColor === null) return;
+
   function animate(timestamp) {
     let frameChanged = false;
 
