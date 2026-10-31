@@ -227,6 +227,16 @@ h2 {
   margin-left: 0;
 }
 
+.run-controls {
+  container-type: inline-size;
+}
+
+@container (max-width: 320px) {
+  .run-controls .pace-control {
+    margin-left: 0;
+  }
+}
+
 .space-harrier-page .screen {
   border-color: #3d526b;
   background-color: #1b2639;
@@ -375,13 +385,12 @@ input:focus-visible {
 }
 
 input[type="range"] {
-  width: 86px;
+  width:68px;
   accent-color: var(--acid);
   cursor: pointer;
 }
 
 .speed-value {
-  width: 53px;
   color: #d5dbd5;
   font-size: 9px;
   letter-spacing: 0.04em;
@@ -416,15 +425,20 @@ input[type="range"] {
   .controls {
     gap: 9px;
   }
-  .run-controls .pace-control {
-    flex-basis: 100%;
-    justify-content: flex-end;
-  }
   button {
     min-width: 88px;
     padding-inline: 10px;
   }
   input[type="range"] {
-    width: 68px;
+    width: 50px;
+  }
+}
+
+@media (max-width: 460px) {
+  input[type="range"] {
+    width: 50px;
+  }
+  button {
+    min-width: 68px;
   }
 }
