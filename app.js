@@ -98,8 +98,8 @@ function setupAnimation(canvas) {
       const sourceRed = (pulseColor >> 16) & 255;
       const sourceGreen = (pulseColor >> 8) & 255;
       const sourceBlue = pulseColor & 255;
-      const pulse = (Math.sin((timestamp / 1400) * Math.PI * 2) + 1) / 2;
-      const red = Math.round(75 + pulse * 180);
+      const pulse = (Math.sin((timestamp / 1000) * Math.PI * 2) + 1) / 2;
+      const red = Math.round(140 + pulse * 180);
       const green = Math.round(12 + pulse * 34);
       const blue = Math.round(20 + pulse * 25);
 
