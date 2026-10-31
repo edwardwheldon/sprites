@@ -30,16 +30,8 @@
               <div class="screen" aria-label="RoboCop walking animation">
                 <div class="scanlines" aria-hidden="true"></div>
                 <canvas
+                  id="robocop-walk"
                   class="sprite-animation"
-                  width="40"
-                  height="72"
-                  data-src="images/robocop-sprites.png"
-                  data-frame-width="40"
-                  data-frame-height="72"
-                  data-frame-count="8"
-                  data-start-x="0"
-                  data-start-y="0"
-                  data-loop="true"
                   role="img"
                   aria-label="RoboCop walking"
                 ></canvas>
@@ -79,28 +71,8 @@
               >
                 <div class="scanlines" aria-hidden="true"></div>
                 <canvas
+                  id="robocop-weapon"
                   class="sprite-animation"
-                  width="50"
-                  height="68"
-                  data-src="images/robocop-sprites.png"
-                  data-frame-width="40"
-                  data-frame-height="88"
-                  data-padding-x="4"
-                  data-frame-count="17"
-                  data-start-x="0"
-                  data-start-y="800"
-                  data-extend-frame-index="6"
-                  data-extend-frame-by="5"
-                  data-behavior="robocop-weapon"
-                  data-draw-end="6"
-                  data-holster-start="7"
-                  data-return-frame="0"
-                  data-draw-offset-x="-5"
-                  data-holster-offset-x="3"
-                  data-return-offset-x="-5"
-                  data-offset-start-frame="7"
-                  data-frame-x-offset="16"
-                  data-loop="false"
                   role="img"
                   aria-label="RoboCop drawing his weapon"
                 ></canvas>
@@ -154,18 +126,8 @@
               <div class="screen" aria-label="ED-209 walking animation">
                 <div class="scanlines" aria-hidden="true"></div>
                 <canvas
+                  id="ed209-walk"
                   class="sprite-animation"
-                  width="111"
-                  height="144"
-                  data-src="images/sprites-ed209.png"
-                  data-frame-width="111"
-                  data-frame-height="144"
-                  data-frame-positions="16,128,235,346,449,561,668,779"
-                  data-frame-widths="104,99,103,95,104,99,103,95"
-                  data-frame-count="8"
-                  data-start-x="0"
-                  data-start-y="0"
-                  data-loop="true"
                   role="img"
                   aria-label="ED-209 walking"
                 ></canvas>
@@ -206,22 +168,8 @@
               <div class="screen" aria-label="Space Harrier running animation">
                 <div class="scanlines" aria-hidden="true"></div>
                 <canvas
+                  id="space-harrier-run"
                   class="sprite-animation"
-                  width="64"
-                  height="72"
-                  data-src="images/space-harrier-sprites.png"
-                  data-frame-width="64"
-                  data-frame-height="72"
-                  data-frame-count="4"
-                  data-start-x="0"
-                  data-start-y="32"
-                  data-trip-start-y="136"
-                  data-trip-frame-count="9"
-                  data-trip-frame-height="70"
-                  data-trip-frame-x-offsets="0,0,0,0,0,5,5,14,21,25"
-                  data-pulse-color="41e54b"
-                  data-behavior="space-harrier-trip"
-                  data-loop="true"
                   role="img"
                   aria-label="Space Harrier running"
                 ></canvas>
@@ -265,22 +213,8 @@
               <div class="screen" aria-label="Space Harrier flying pose">
                 <div class="scanlines" aria-hidden="true"></div>
                 <canvas
+                  id="space-harrier-flight"
                   class="sprite-animation"
-                  width="112"
-                  height="72"
-                  data-src="images/space-harrier-sprites.png"
-                  data-frame-width="64"
-                  data-frame-height="72"
-                  data-frame-count="4"
-                  data-start-x="5"
-                  data-frame-positions="5,69,133,197"
-                  data-frame-centers="41.5,41.5,44.5,40.5"
-                  data-start-y="252"
-                  data-center-sprite="true"
-                  data-pulse-color="41e54b"
-                  data-static="true"
-                  data-behavior="space-harrier-flight"
-                  data-phase-duration="5000"
                   role="img"
                   aria-label="Space Harrier flying"
                 ></canvas>
@@ -294,6 +228,6 @@
       </div>
     </main>
 
-    <script src="app.js" defer></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>
