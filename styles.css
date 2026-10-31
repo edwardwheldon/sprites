@@ -244,8 +244,8 @@ canvas {
 
 .action-demo canvas {
   width: 250px;
-  height: 310px;
-  transform: translateY(-25px);
+  height: 280px;
+  transform: translateZ(-20px);
 }
 
 .ed209-demo canvas {

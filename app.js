@@ -9,6 +9,14 @@ function loadSpriteSheet(src) {
   return sheetCache.get(src);
 }
 
+function updateToggle(toggle, isPlaying) {
+  toggle.setAttribute("aria-pressed", String(isPlaying));
+  toggle.querySelector(".button-icon").textContent = isPlaying ? "Ⅱ" : "▶";
+  toggle.querySelector(".button-label").textContent = isPlaying
+    ? "Pause"
+    : "Play";
+}
+
 function setupAnimation(canvas) {
   const demo = canvas.closest(".demo");
   const pulseColor =
@@ -26,47 +34,30 @@ function setupAnimation(canvas) {
   const startY = Number(canvas.dataset.startY);
   const tripStartY = Number(canvas.dataset.tripStartY);
   const tripFrameCount = Number(canvas.dataset.tripFrameCount || 0);
-  const tripFrameHeight = Number(
-    canvas.dataset.tripFrameHeight || frameHeight,
-  );
+  const tripFrameHeight = Number(canvas.dataset.tripFrameHeight || frameHeight);
   const tripFrameXOffsets = canvas.dataset.tripFrameXOffsets
     ?.split(",")
     .map(Number);
-  const framePositions = canvas.dataset.framePositions
-    ?.split(",")
-    .map(Number);
+  const framePositions = canvas.dataset.framePositions?.split(",").map(Number);
   const frameWidths = canvas.dataset.frameWidths?.split(",").map(Number);
   const paddingX = Number(canvas.dataset.paddingX || 0);
   const extendFrameIndex = Number(canvas.dataset.extendFrameIndex ?? -1);
   const extendFrameBy = Number(canvas.dataset.extendFrameBy || 0);
-  const offsetStartFrame = Number(
-    canvas.dataset.offsetStartFrame ?? frameCount,
-  );
+  const offsetStartFrame = Number(canvas.dataset.offsetStartFrame ?? frameCount);
   const frameXOffset = Number(canvas.dataset.frameXOffset || 0);
-  const holsterStartFrame = Number(canvas.dataset.holsterStart ?? frameCount);
-  const returnFrame = Number(canvas.dataset.returnFrame);
-  const hasReturnFrame = canvas.dataset.returnFrame !== undefined;
-  const drawOffsetX = Number(canvas.dataset.drawOffsetX || 0);
-  const holsterOffsetX = Number(canvas.dataset.holsterOffsetX || 0);
-  const returnOffsetX = Number(canvas.dataset.returnOffsetX || 0);
   const loops = canvas.dataset.loop === "true";
   const speed = demo.querySelector(".speed");
   const speedValue = demo.querySelector(".speed-value");
-  const tripButton = demo.querySelector('[data-action="trip"]');
-  const screenCaption = demo.querySelector(".screen-caption");
-  const actionButtons = demo.querySelectorAll(
-    '[data-action="draw"], [data-action="holster"]',
-  );
+  const toggle = demo.querySelector(".toggle");
   const actionStatus = demo.querySelector(".action-status");
-  const isActionAnimation = actionButtons.length > 0;
 
   let frame = 0;
   let activeStartY = startY;
   let activeFrameHeight = frameHeight;
   let activeFrameXOffsets = null;
+  let activeOffsetX = 0;
   let activeLoops = loops;
-  let playing = !isActionAnimation;
-  let showingReturnPose = isActionAnimation && hasReturnFrame;
+  let playing = loops;
   let sequenceEnd = frameCount - 1;
   let lastFrameAt = 0;
   let onSequenceEnd = null;
@@ -75,6 +66,7 @@ function setupAnimation(canvas) {
 
   function drawFrame(timestamp = 0) {
     context.clearRect(0, 0, canvas.width, canvas.height);
+    if (!sheet.complete || !sheet.naturalWidth) return;
     const sourceWidth =
       frameWidths?.[frame] ??
       (frame === extendFrameIndex ? frameWidth + extendFrameBy : frameWidth);
@@ -83,11 +75,6 @@ function setupAnimation(canvas) {
       startX +
         frame * frameWidth +
         (frame >= offsetStartFrame ? frameXOffset : 0);
-    const sequenceOffsetX = showingReturnPose
-      ? returnOffsetX
-      : frame >= holsterStartFrame
-        ? holsterOffsetX
-        : drawOffsetX;
     context.drawImage(
       sheet,
       sourceX,
@@ -96,7 +83,7 @@ function setupAnimation(canvas) {
       activeFrameHeight,
       paddingX +
         extendFrameBy / 2 +
-        sequenceOffsetX +
+        activeOffsetX +
         (activeFrameXOffsets?.[frame] ?? 0) +
         (frameWidths ? (canvas.width - sourceWidth) / 2 : 0),
       (canvas.height - activeFrameHeight) / 2,
@@ -133,98 +120,86 @@ function setupAnimation(canvas) {
   function playSequence(
     firstFrame,
     lastFrame,
-    endMessage,
-    returnToFrame = null,
+    {
+      startY: sequenceStartY = startY,
+      frameHeight: sequenceFrameHeight = frameHeight,
+      frameXOffsets = null,
+      offsetX = 0,
+      loop = false,
+      status = null,
+      onComplete = null,
+    } = {},
   ) {
     frame = firstFrame;
-    showingReturnPose = false;
+    activeStartY = sequenceStartY;
+    activeFrameHeight = sequenceFrameHeight;
+    activeFrameXOffsets = frameXOffsets;
+    activeOffsetX = offsetX;
+    activeLoops = loop;
     sequenceEnd = lastFrame;
     playing = true;
     lastFrameAt = 0;
-    onSequenceEnd = () => {
-      actionStatus.textContent = endMessage;
-      if (returnToFrame !== null) {
-        frame = returnToFrame;
-        showingReturnPose = true;
-        drawFrame();
-      }
-    };
-    actionStatus.textContent =
-      endMessage === "Weapon drawn" ? "Drawing weapon…" : "Holstering weapon…";
+    onSequenceEnd = onComplete;
+    if (status !== null && actionStatus) actionStatus.textContent = status;
     drawFrame();
   }
 
-  function updateToggle(toggle, isPlaying) {
-    toggle.setAttribute("aria-pressed", String(isPlaying));
-    toggle.querySelector(".button-icon").textContent = isPlaying ? "Ⅱ" : "▶";
-    toggle.querySelector(".button-label").textContent = isPlaying
-      ? "Pause"
-      : "Play";
+  function showFrame(
+    frameIndex,
+    {
+      startY: poseStartY = startY,
+      frameHeight: poseFrameHeight = frameHeight,
+      frameXOffsets = null,
+      offsetX = 0,
+    } = {},
+  ) {
+    frame = frameIndex;
+    activeStartY = poseStartY;
+    activeFrameHeight = poseFrameHeight;
+    activeFrameXOffsets = frameXOffsets;
+    activeOffsetX = offsetX;
+    activeLoops = false;
+    sequenceEnd = frameIndex;
+    playing = false;
+    onSequenceEnd = null;
+    drawFrame();
   }
+
+  const player = {
+    frameCount,
+    loops,
+    playSequence,
+    showFrame,
+    toggle() {
+      playing = !playing;
+      if (playing) lastFrameAt = 0;
+      return playing;
+    },
+  };
 
   sheet.addEventListener("load", drawFrame, { once: true });
   if (sheet.complete && sheet.naturalWidth) drawFrame();
 
-  if (isActionAnimation) {
-    const drawEnd = Number(canvas.dataset.drawEnd);
-    const holsterStart = Number(canvas.dataset.holsterStart);
-    demo.querySelector('[data-action="draw"]').addEventListener("click", () => {
-      playSequence(0, drawEnd, "Weapon drawn");
+  if (speed && speedValue) {
+    speed.addEventListener("input", () => {
+      speedValue.textContent = `${speed.value} ms`;
     });
-    demo
-      .querySelector('[data-action="holster"]')
-      .addEventListener("click", () => {
-        playSequence(
-          holsterStart,
-          frameCount - 1,
-          "Weapon holstered",
-          hasReturnFrame ? returnFrame : null,
-        );
-      });
-  } else {
-    const toggle = demo.querySelector(".toggle");
-    toggle.addEventListener("click", () => {
-      playing = !playing;
-      if (playing) lastFrameAt = 0;
-      updateToggle(toggle, playing);
-    });
-
-    if (tripButton) {
-      tripButton.addEventListener("click", () => {
-        frame = 0;
-        activeStartY = tripStartY;
-        activeFrameHeight = tripFrameHeight;
-        activeFrameXOffsets = tripFrameXOffsets;
-        activeLoops = false;
-        sequenceEnd = tripFrameCount - 1;
-        playing = true;
-        lastFrameAt = 0;
-        updateToggle(toggle, true);
-        actionStatus.textContent = "Tripping!";
-        screenCaption.textContent = "TRIP · GROUND";
-        onSequenceEnd = () => {
-          frame = 0;
-          activeStartY = startY;
-          activeFrameHeight = frameHeight;
-          activeFrameXOffsets = null;
-          activeLoops = loops;
-          sequenceEnd = frameCount - 1;
-          playing = true;
-          lastFrameAt = 0;
-          canvas.setAttribute("aria-label", "Space Harrier running");
-          actionStatus.textContent = "Running";
-          screenCaption.textContent = "RUN CYCLE · GROUND";
-          drawFrame();
-        };
-        canvas.setAttribute("aria-label", "Space Harrier tripping");
-        drawFrame();
-      });
-    }
   }
 
-  speed.addEventListener("input", () => {
-    speedValue.textContent = `${speed.value} ms`;
-  });
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      updateToggle(toggle, player.toggle());
+    });
+  }
+
+  const behaviorName = canvas.dataset.behavior;
+  if (behaviorName) {
+    const setupBehavior = animationBehaviors[behaviorName];
+    if (!setupBehavior) {
+      throw new Error(`Unknown sprite behavior: ${behaviorName}`);
+    }
+    setupBehavior({ canvas, demo, player, actionStatus });
+  }
 
   function animate(timestamp) {
     let frameChanged = false;
@@ -233,7 +208,7 @@ function setupAnimation(canvas) {
       playing &&
       sheet.complete &&
       sheet.naturalWidth &&
-      timestamp - lastFrameAt >= Number(speed.value)
+      timestamp - lastFrameAt >= Number(speed?.value || 120)
     ) {
       if (frame < sequenceEnd) {
         frame += 1;
@@ -244,18 +219,15 @@ function setupAnimation(canvas) {
       } else {
         playing = false;
         if (onSequenceEnd) {
-          onSequenceEnd();
+          const complete = onSequenceEnd;
           onSequenceEnd = null;
+          complete();
         }
       }
       lastFrameAt = timestamp;
     }
 
-    if (
-      pulseColor !== null &&
-      sheet.complete &&
-      sheet.naturalWidth
-    ) {
+    if (pulseColor !== null && sheet.complete && sheet.naturalWidth) {
       drawFrame(timestamp);
     } else if (frameChanged) {
       drawFrame();
@@ -266,6 +238,74 @@ function setupAnimation(canvas) {
 
   requestAnimationFrame(animate);
 }
+
+function setupRobocopWeapon({ canvas, demo, player, actionStatus }) {
+  const drawEnd = Number(canvas.dataset.drawEnd);
+  const holsterStart = Number(canvas.dataset.holsterStart);
+  const returnFrame = Number(canvas.dataset.returnFrame);
+  const drawOffsetX = Number(canvas.dataset.drawOffsetX || 0);
+  const holsterOffsetX = Number(canvas.dataset.holsterOffsetX || 0);
+  const returnOffsetX = Number(canvas.dataset.returnOffsetX || 0);
+
+  demo.querySelector('[data-action="draw"]').addEventListener("click", () => {
+    player.playSequence(0, drawEnd, {
+      offsetX: drawOffsetX,
+      status: "Drawing weapon…",
+      onComplete: () => {
+        actionStatus.textContent = "Weapon drawn";
+      },
+    });
+  });
+
+  demo.querySelector('[data-action="holster"]').addEventListener("click", () => {
+    player.playSequence(holsterStart, player.frameCount - 1, {
+      offsetX: holsterOffsetX,
+      status: "Holstering weapon…",
+      onComplete: () => {
+        player.showFrame(returnFrame, { offsetX: returnOffsetX });
+        actionStatus.textContent = "Weapon holstered";
+      },
+    });
+  });
+
+  player.showFrame(returnFrame, { offsetX: returnOffsetX });
+}
+
+function setupSpaceHarrierTrip({ canvas, demo, player, actionStatus }) {
+  const tripStartY = Number(canvas.dataset.tripStartY);
+  const tripFrameCount = Number(canvas.dataset.tripFrameCount || 0);
+  const tripFrameHeight = Number(
+    canvas.dataset.tripFrameHeight || canvas.dataset.frameHeight,
+  );
+  const tripFrameXOffsets = canvas.dataset.tripFrameXOffsets
+    ?.split(",")
+    .map(Number);
+  const toggle = demo.querySelector(".toggle");
+  const screenCaption = demo.querySelector(".screen-caption");
+
+  demo.querySelector('[data-action="trip"]').addEventListener("click", () => {
+    player.playSequence(0, tripFrameCount - 1, {
+      startY: tripStartY,
+      frameHeight: tripFrameHeight,
+      frameXOffsets: tripFrameXOffsets,
+      status: "Tripping!",
+      onComplete: () => {
+        player.playSequence(0, player.frameCount - 1, { loop: player.loops });
+        canvas.setAttribute("aria-label", "Space Harrier running");
+        actionStatus.textContent = "Running";
+        screenCaption.textContent = "RUN CYCLE · GROUND";
+      },
+    });
+    updateToggle(toggle, true);
+    canvas.setAttribute("aria-label", "Space Harrier tripping");
+    screenCaption.textContent = "TRIP · GROUND";
+  });
+}
+
+const animationBehaviors = {
+  "robocop-weapon": setupRobocopWeapon,
+  "space-harrier-trip": setupSpaceHarrierTrip,
+};
 
 document.querySelectorAll(".sprite-animation").forEach(setupAnimation);
 
