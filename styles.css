@@ -391,6 +391,8 @@ input[type="range"] {
 }
 
 .speed-value {
+  flex: 0 0 53px;
+  width: 53px;
   color: #d5dbd5;
   font-size: 9px;
   letter-spacing: 0.04em;
@@ -436,9 +438,9 @@ input[type="range"] {
 
 @media (max-width: 460px) {
   input[type="range"] {
-    width: 50px;
+    width: 56px;
   }
   button {
-    min-width: 68px;
+    min-width: 80px;
   }
 }
