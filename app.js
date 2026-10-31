@@ -43,7 +43,9 @@ function setupAnimation(canvas) {
   const paddingX = Number(canvas.dataset.paddingX || 0);
   const extendFrameIndex = Number(canvas.dataset.extendFrameIndex ?? -1);
   const extendFrameBy = Number(canvas.dataset.extendFrameBy || 0);
-  const offsetStartFrame = Number(canvas.dataset.offsetStartFrame ?? frameCount);
+  const offsetStartFrame = Number(
+    canvas.dataset.offsetStartFrame ?? frameCount,
+  );
   const frameXOffset = Number(canvas.dataset.frameXOffset || 0);
   const loops = canvas.dataset.loop === "true";
   const speed = demo.querySelector(".speed");
@@ -180,12 +182,6 @@ function setupAnimation(canvas) {
   sheet.addEventListener("load", drawFrame, { once: true });
   if (sheet.complete && sheet.naturalWidth) drawFrame();
 
-  if (speed && speedValue) {
-    speed.addEventListener("input", () => {
-      speedValue.textContent = `${speed.value} ms`;
-    });
-  }
-
   if (toggle) {
     toggle.addEventListener("click", () => {
       updateToggle(toggle, player.toggle());
@@ -257,16 +253,18 @@ function setupRobocopWeapon({ canvas, demo, player, actionStatus }) {
     });
   });
 
-  demo.querySelector('[data-action="holster"]').addEventListener("click", () => {
-    player.playSequence(holsterStart, player.frameCount - 1, {
-      offsetX: holsterOffsetX,
-      status: "Holstering weapon…",
-      onComplete: () => {
-        player.showFrame(returnFrame, { offsetX: returnOffsetX });
-        actionStatus.textContent = "Weapon holstered";
-      },
+  demo
+    .querySelector('[data-action="holster"]')
+    .addEventListener("click", () => {
+      player.playSequence(holsterStart, player.frameCount - 1, {
+        offsetX: holsterOffsetX,
+        status: "Holstering weapon…",
+        onComplete: () => {
+          player.showFrame(returnFrame, { offsetX: returnOffsetX });
+          actionStatus.textContent = "Weapon holstered";
+        },
+      });
     });
-  });
 
   player.showFrame(returnFrame, { offsetX: returnOffsetX });
 }
