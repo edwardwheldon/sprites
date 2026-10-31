@@ -178,7 +178,7 @@
                 >
               </div>
 
-              <div class="controls">
+              <div class="controls run-controls">
                 <button class="trip-button" type="button" data-action="trip">
                   Trip!
                 </button>
@@ -186,17 +186,19 @@
                   <span class="button-icon" aria-hidden="true">Ⅱ</span>
                   <span class="button-label">Pause</span>
                 </button>
-                <label for="run-speed">Pace</label>
-                <input
-                  id="run-speed"
-                  class="speed"
-                  type="range"
-                  min="70"
-                  max="220"
-                  value="90"
-                  aria-label="Running animation speed"
-                />
-                <span class="speed-value">80 ms</span>
+                <div class="pace-control">
+                  <label for="run-speed">Pace</label>
+                  <input
+                    id="run-speed"
+                    class="speed"
+                    type="range"
+                    min="70"
+                    max="220"
+                    value="90"
+                    aria-label="Running animation speed"
+                  />
+                  <span class="speed-value">80 ms</span>
+                </div>
               </div>
               <p class="action-status" aria-live="polite">Running</p>
               <p class="credit">4 frames <span>／</span> looping run</p>
