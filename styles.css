@@ -271,7 +271,7 @@ canvas {
 .action-demo canvas {
   width: 250px;
   height: 280px;
-  transform: translateZ(-20px);
+  /* transform: translateZ(-20px); */
 }
 
 .ed209-demo canvas {
