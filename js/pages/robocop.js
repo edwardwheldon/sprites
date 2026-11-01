@@ -54,6 +54,7 @@ const animations = [
       frameHeight: 72,
       frameCount: 17,
       paddingX: 4,
+      offsetY: -8,
       startY: 800,
       extendFrameIndex: 6,
       extendFrameBy: 4,

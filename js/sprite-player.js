@@ -32,6 +32,7 @@ export function setupSpriteAnimation(canvas, configuration, setupBehavior) {
     startX = 0,
     startY = 0,
     paddingX = 0,
+    offsetY = 0,
     extendFrameIndex = -1,
     extendFrameBy = 0,
     offsetStartFrame = frameCount,
@@ -95,7 +96,7 @@ export function setupSpriteAnimation(canvas, configuration, setupBehavior) {
       sourceWidth,
       activeFrameHeight,
       destinationX,
-      (canvas.height - activeFrameHeight) / 2,
+      (canvas.height - activeFrameHeight) / 2 + offsetY,
       sourceWidth,
       activeFrameHeight,
     );
