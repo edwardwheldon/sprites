@@ -1,6 +1,6 @@
 import { setupSpriteAnimation } from "../sprite-player.js";
 
-const spriteSheet = "images/robocop-sprites.png";
+const spriteSheet = "images/robocop-sprites.png?v=2";
 
 function setupWeaponActions({ canvas, demo, player, actionStatus }, settings) {
   demo.querySelector('[data-action="draw"]').addEventListener("click", () => {
