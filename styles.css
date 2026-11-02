@@ -441,10 +441,7 @@ input[type="range"] {
   color: var(--acid);
 }
 
-@media (max-width: 390px) {
-  .stage {
-    padding-inline: 18px;
-  }
+@media (max-width: 640px) {
   .site-header {
     align-items: flex-start;
     flex-direction: column;
@@ -457,6 +454,15 @@ input[type="range"] {
   .game-link {
     flex: 1;
     text-align: center;
+    padding-inline: clamp(4px, 1.5vw, 8px);
+    font-size: clamp(9px, 2.8vw, 11px);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 390px) {
+  .stage {
+    padding-inline: 18px;
   }
   .controls {
     gap: 9px;
