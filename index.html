@@ -16,6 +16,7 @@
         <nav class="game-menu" aria-label="Choose a game">
           <a class="game-link" href="#robocop" aria-current="page">RoboCop</a>
           <a class="game-link" href="#space-harrier">Space Harrier</a>
+          <a class="game-link" href="#shadow-warriors">Shadow Warriors</a>
         </nav>
       </header>
 
@@ -226,6 +227,48 @@
               </div>
               <p class="action-status" aria-live="polite">Flying</p>
               <p class="credit">4 frames <span>／</span> looping flight</p>
+            </section>
+          </div>
+        </div>
+
+        <div class="game-page shadow-warriors-page" id="shadow-warriors" hidden>
+          <div class="demos">
+            <section class="demo" aria-labelledby="shadow-warriors-title">
+              <p class="eyebrow">ARCADE SPRITE STUDY · 1987</p>
+              <h1 id="shadow-warriors-title">Shadows in motion.</h1>
+              <p class="intro">Six frames of the ninja on the move.</p>
+
+              <div class="screen" aria-label="Shadow Warriors walking animation">
+                <div class="scanlines" aria-hidden="true"></div>
+                <canvas
+                  id="shadow-warriors-walk"
+                  class="sprite-animation"
+                  role="img"
+                  aria-label="Shadow Warriors character walking"
+                ></canvas>
+                <span class="screen-caption"
+                  >WALK CYCLE <span>·</span> SHADOW WARRIORS</span
+                >
+              </div>
+
+              <div class="controls">
+                <button class="toggle" type="button" aria-pressed="true">
+                  <span class="button-icon" aria-hidden="true">Ⅱ</span>
+                  <span class="button-label">Pause</span>
+                </button>
+                <label for="shadow-warriors-walk-speed">Pace</label>
+                <input
+                  id="shadow-warriors-walk-speed"
+                  class="speed"
+                  type="range"
+                  min="200"
+                  max="300"
+                  value="250"
+                  aria-label="Walking animation speed"
+                />
+                <span class="speed-value">250 ms</span>
+              </div>
+              <p class="credit">6 frames <span>／</span> looping walk cycle</p>
             </section>
           </div>
         </div>
