@@ -46,12 +46,12 @@ body {
 }
 
 .stage[data-game="shadow-warriors"] {
-  --acid: #a9c8e8;
+  --acid: #ef9690;
   background: radial-gradient(
     ellipse at 50% 40%,
-    #263b52 0,
-    #1b2939 38%,
-    #10151d 76%
+    #7a1521 0,
+    #291c1d 38%,
+    #151212 76%
   );
 }
 
@@ -211,7 +211,7 @@ h2 {
 }
 
 .shadow-warriors-page {
-  --acid: #a9c8e8;
+  --acid: #ef9690;
 }
 
 .shadow-warriors-page canvas {
@@ -220,18 +220,18 @@ h2 {
 }
 
 .shadow-warriors-page .screen {
-  border-color: #40566d;
-  background-color: #202e3e;
+  border-color: #654248;
+  background-color: #302126;
   background-image:
     linear-gradient(#ffffff08 1px, transparent 1px),
     linear-gradient(90deg, #ffffff08 1px, transparent 1px);
 }
 
 .shadow-warriors-page .screen::before {
-  border-color: #a9c8e824;
+  border-color: #ef969024;
   box-shadow:
-    0 0 0 28px #a9c8e80c,
-    0 0 0 58px #a9c8e808;
+    0 0 0 28px #ef96900c,
+    0 0 0 58px #ef969008;
 }
 
 .space-harrier-page canvas {
