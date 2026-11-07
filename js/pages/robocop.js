@@ -64,7 +64,7 @@ const animations = [
     setupBehavior: (context) =>
       setupWeaponActions(context, {
         drawEnd: 6,
-        holsterStart: 7,
+        holsterStart: 6,
         returnFrame: 0,
         drawOffsetX: -5,
         holsterOffsetX: 3,
