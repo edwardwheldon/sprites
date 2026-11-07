@@ -1,9 +1,14 @@
 import { setupSpriteAnimation } from "../sprite-player.js";
 
+const spriteSheet = new URL(
+  "../../images/shadow-warriors-sprites.png",
+  import.meta.url,
+).href;
+
 const animation = [{
   id: "shadow-warriors-walk",
   configuration: {
-    src: "images/shadow-warriors-sprites.png",
+    src: spriteSheet,
     canvasWidth: 60,
     canvasHeight: 66,
     frameWidth: 60,
@@ -16,7 +21,7 @@ const animation = [{
 }, {
   id: "shadow-warriors-running",
   configuration: {
-    src: "images/shadow-warriors-sprites.png",
+    src: spriteSheet,
     canvasWidth: 60,
     canvasHeight: 66,
     frameWidth: 60,
@@ -29,7 +34,7 @@ const animation = [{
 }, {
   id: "shadow-warriors-fight",
   configuration: {
-    src: "images/shadow-warriors-sprites.png",
+    src: spriteSheet,
     canvasWidth: 70,
     canvasHeight: 70,
     frameWidth: 70,

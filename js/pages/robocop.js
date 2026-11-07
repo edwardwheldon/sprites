@@ -1,6 +1,7 @@
 import { setupSpriteAnimation } from "../sprite-player.js";
 
-const spriteSheet = "images/robocop-sprites.png?v=2";
+const spriteSheet = new URL("../../images/robocop-sprites.png", import.meta.url)
+  .href;
 
 function setupWeaponActions({ canvas, demo, player, actionStatus }, settings) {
   demo.querySelector('[data-action="draw"]').addEventListener("click", () => {
@@ -74,7 +75,7 @@ const animations = [
   {
     id: "ed209-walk",
     configuration: {
-      src: "images/sprites-ed209.png",
+      src: new URL("../../images/sprites-ed209.png", import.meta.url).href,
       canvasWidth: 111,
       canvasHeight: 144,
       frameWidth: 111,

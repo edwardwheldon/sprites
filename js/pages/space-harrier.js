@@ -1,6 +1,9 @@
 import { setupSpriteAnimation, updateToggle } from "../sprite-player.js";
 
-const spriteSheet = "images/space-harrier-sprites.png";
+const spriteSheet = new URL(
+  "../../images/space-harrier-sprites.png",
+  import.meta.url,
+).href;
 
 function setupTripAction({ canvas, demo, player, actionStatus }, settings) {
   const toggle = demo.querySelector(".toggle");
