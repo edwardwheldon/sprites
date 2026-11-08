@@ -5,63 +5,99 @@ const spriteSheet = new URL(
   import.meta.url,
 ).href;
 
-const animation = [{
-  id: "shadow-warriors-walk",
-  configuration: {
-    src: spriteSheet,
-    canvasWidth: 60,
-    canvasHeight: 66,
-    frameWidth: 60,
-    frameHeight: 66,
-    frameCount: 6,
-    startX: 7,
-    startY: 7,
-    loop: true,
+const animation = [
+  {
+    id: "shadow-warriors-walk",
+    configuration: {
+      src: spriteSheet,
+      canvasWidth: 60,
+      canvasHeight: 66,
+      frameWidth: 60,
+      frameHeight: 66,
+      frameCount: 6,
+      startX: 7,
+      startY: 7,
+      loop: true,
+    },
   },
-}, {
-  id: "shadow-warriors-running",
-  configuration: {
-    src: spriteSheet,
-    canvasWidth: 60,
-    canvasHeight: 66,
-    frameWidth: 60,
-    frameHeight: 66,
-    frameCount: 6,
-    startX: 7,
-    startY: 78,
-    loop: true,
+  {
+    id: "shadow-warriors-running",
+    configuration: {
+      src: spriteSheet,
+      canvasWidth: 60,
+      canvasHeight: 66,
+      frameWidth: 60,
+      frameHeight: 66,
+      frameCount: 6,
+      startX: 7,
+      startY: 78,
+      loop: true,
+    },
   },
-}, {
-  id: "shadow-warriors-fight",
-  configuration: {
-    src: spriteSheet,
-    canvasWidth: 70,
-    canvasHeight: 70,
-    frameWidth: 70,
-    frameHeight: 70,
-    frameCount: 13,
-    framePositions: Array.from({ length: 13 }, (_, index) => index * 80),
-    startY: 151,
-  },
-  setupBehavior: ({ demo, player, actionStatus }) => {
-    const button = demo.querySelector('[data-action="fight"]');
-    player.showFrame(0);
+  {
+    id: "shadow-warriors-fight",
+    configuration: {
+      src: spriteSheet,
+      canvasWidth: 70,
+      canvasHeight: 70,
+      frameWidth: 70,
+      frameHeight: 70,
+      frameCount: 13,
+      framePositions: Array.from({ length: 13 }, (_, index) => index * 80),
+      startY: 151,
+    },
+    setupBehavior: ({ demo, player, actionStatus }) => {
+      const button = demo.querySelector('[data-action="fight"]');
+      player.showFrame(0);
 
-    button.addEventListener("click", () => {
-      button.disabled = true;
-      button.textContent = "Fighting…";
-      player.playSequence(0, player.frameCount - 1, {
-        status: "Fight in progress…",
-        onComplete: () => {
-          player.showFrame(0);
-          button.disabled = false;
-          button.textContent = "Fight again";
-          actionStatus.textContent = "Fight complete";
-        },
+      button.addEventListener("click", () => {
+        button.disabled = true;
+        button.textContent = "Fighting…";
+        player.playSequence(0, player.frameCount - 1, {
+          status: "Fight in progress…",
+          onComplete: () => {
+            player.showFrame(0);
+            button.disabled = false;
+            button.textContent = "Fight again";
+            actionStatus.textContent = "Fight complete";
+          },
+        });
       });
-    });
+    },
   },
-}];
+  {
+    id: "shadow-warriors-sword",
+    configuration: {
+      src: spriteSheet,
+      canvasWidth: 87,
+      canvasHeight: 70,
+      frameWidth: 87,
+      frameHeight: 70,
+      frameCount: 7,
+      framePositions: Array.from({ length: 7 }, (_, index) => 11 + index * 100),
+      startY: 244,
+    },
+    setupBehavior: ({ demo, player, actionStatus }) => {
+      const button = demo.querySelector('[data-action="sword"]');
+      player.showFrame(0);
+
+      button.addEventListener("click", () => {
+        button.disabled = true;
+        button.textContent = "Swinging…";
+        actionStatus.textContent = "Sword attack in progress…";
+        player.playSequence(0, player.frameCount - 1, {
+          status: "Sword attack in progress…",
+          onComplete: () => {
+            player.showFrame(0);
+            button.disabled = false;
+            button.textContent = "Swing sword";
+            actionStatus.textContent = "Ready";
+          },
+        });
+      });
+    },
+  },
+];
 
 export function setupShadowWarriorsPage() {
   animation.forEach((anim) => {
