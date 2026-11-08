@@ -233,54 +233,9 @@
 
         <div class="game-page shadow-warriors-page" id="shadow-warriors" hidden>
           <div class="demos">
-            <section
-              class="demo shadow-warriors-fight-demo"
-              aria-labelledby="shadow-warriors-fight-title"
-            >
-              <p class="eyebrow">ARCADE SPRITE STUDY · 1988</p>
-              <h1 id="shadow-warriors-fight-title">Fight.</h1>
-              <p class="intro">
-                Thirteen frames of action. Press the button to begin.
-              </p>
-
-              <div class="screen" aria-label="Shadow Warriors fight animation">
-                <div class="scanlines" aria-hidden="true"></div>
-                <canvas
-                  id="shadow-warriors-fight"
-                  class="sprite-animation"
-                  role="img"
-                  aria-label="Shadow Warriors fight pose"
-                ></canvas>
-                <span class="screen-caption"
-                  >FIGHT SEQUENCE <span>·</span> 13 FRAMES</span
-                >
-              </div>
-
-              <div class="controls fight-controls">
-                <button class="action-button" type="button" data-action="fight">
-                  Start fight
-                </button>
-                <label for="shadow-warriors-fight-speed">Pace</label>
-                <input
-                  id="shadow-warriors-fight-speed"
-                  class="speed"
-                  type="range"
-                  min="100"
-                  max="200"
-                  value="125"
-                  aria-label="Walking fight speed"
-                />
-                <span class="speed-value">125 ms</span>
-              </div>
-              <p class="action-status" aria-live="polite">Ready</p>
-              <p class="credit">
-                13 frames <span>／</span> one-shot fight sequence
-              </p>
-            </section>
-
             <section class="demo" aria-labelledby="shadow-warriors-title">
-              <p class="eyebrow">ACTION SEQUENCE · 01</p>
-              <h2 id="shadow-warriors-title">Careful steps.</h2>
+              <p class="eyebrow">ARCADE SPRITE STUDY · 1988</p>
+              <h1 id="shadow-warriors-title">Careful steps.</h1>
               <p class="intro">Six frames of the ninja on the move.</p>
 
               <div
@@ -320,7 +275,7 @@
             </section>
 
             <section class="demo" aria-labelledby="shadow-warriors-title">
-              <p class="eyebrow">ACTION SEQUENCE · 02</p>
+              <p class="eyebrow">ACTION SEQUENCE · 01</p>
               <h2 id="shadow-warriors-title">Run.</h2>
               <p class="intro">Six frames of the ninja in motion.</p>
 
@@ -358,6 +313,94 @@
                 <span class="speed-value">170 ms</span>
               </div>
               <p class="credit">6 frames <span>／</span> looping run cycle</p>
+            </section>
+
+            <section
+              class="demo shadow-warriors-fight-demo"
+              aria-labelledby="shadow-warriors-fight-title"
+            >
+              <p class="eyebrow">ACTION SEQUENCE · 02</p>
+              <h2 id="shadow-warriors-fight-title">Fight.</h2>
+              <p class="intro">
+                Thirteen frames of action. Press the button to begin.
+              </p>
+
+              <div class="screen" aria-label="Shadow Warriors fight animation">
+                <div class="scanlines" aria-hidden="true"></div>
+                <canvas
+                  id="shadow-warriors-fight"
+                  class="sprite-animation"
+                  role="img"
+                  aria-label="Shadow Warriors fight pose"
+                ></canvas>
+                <span class="screen-caption"
+                  >FIGHT SEQUENCE <span>·</span> 13 FRAMES</span
+                >
+              </div>
+
+              <div class="controls fight-controls">
+                <button class="action-button" type="button" data-action="fight">
+                  Start fight
+                </button>
+                <label for="shadow-warriors-fight-speed">Pace</label>
+                <input
+                  id="shadow-warriors-fight-speed"
+                  class="speed"
+                  type="range"
+                  min="100"
+                  max="200"
+                  value="125"
+                  aria-label="Walking fight speed"
+                />
+                <span class="speed-value">125 ms</span>
+              </div>
+              <p class="action-status" aria-live="polite">Ready</p>
+              <p class="credit">
+                13 frames <span>／</span> one-shot fight sequence
+              </p>
+            </section>
+
+            <section
+              class="demo shadow-warriors-sword-demo"
+              aria-labelledby="shadow-warriors-sword-title"
+            >
+              <p class="eyebrow">ACTION SEQUENCE · 03</p>
+              <h2 id="shadow-warriors-sword-title">Sword work.</h2>
+              <p class="intro">A seven-frame sword attack.</p>
+
+              <div class="screen" aria-label="Shadow Warriors sword animation">
+                <div class="scanlines" aria-hidden="true"></div>
+                <canvas
+                  id="shadow-warriors-sword"
+                  class="sprite-animation"
+                  role="img"
+                  aria-label="Shadow Warriors character swinging his sword"
+                ></canvas>
+                <span class="screen-caption"
+                  >SWORD SEQUENCE <span>·</span> 7 FRAMES</span
+                >
+              </div>
+
+              <div class="controls">
+                <button class="action-button" type="button" data-action="sword">
+                  Swing sword
+                </button>
+                <label for="shadow-warriors-sword-speed">Pace</label>
+                <input
+                  id="shadow-warriors-sword-speed"
+                  class="speed"
+                  type="range"
+                  min="100"
+                  max="300"
+                  value="160"
+                  aria-label="Sword animation speed"
+                />
+                <span class="speed-value">160 ms</span>
+              </div>
+              <p class="action-status" aria-live="polite">Ready</p>
+              <p class="credit">
+                7 frames <span>／</span> plays once, then returns to ready
+              </p>
             </section>
           </div>
         </div>

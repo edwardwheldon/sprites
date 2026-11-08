@@ -236,6 +236,12 @@ h2 {
   transform: translateY(-30px);
 }
 
+.shadow-warriors-sword-demo canvas {
+  width: 261px;
+  height: 210px;
+  transform: translate(30px, -20px);
+}
+
 .shadow-warriors-page .action-button {
   border-color: #a52631;
   color: #fff4f1;
@@ -456,7 +462,7 @@ input:focus-visible {
 }
 
 input[type="range"] {
-  width:68px;
+  width: 68px;
   accent-color: var(--theme-accent);
   cursor: pointer;
 }

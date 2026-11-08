@@ -73,7 +73,9 @@ export function setupSpriteAnimation(canvas, configuration, setupBehavior) {
       (frame === extendFrameIndex ? frameWidth + extendFrameBy : frameWidth);
     const sourceX =
       framePositions?.[frame] ??
-      startX + frame * frameWidth + (frame >= offsetStartFrame ? frameXOffset : 0);
+      startX +
+        frame * frameWidth +
+        (frame >= offsetStartFrame ? frameXOffset : 0);
     const destinationX =
       paddingX +
       extendFrameBy / 2 +
